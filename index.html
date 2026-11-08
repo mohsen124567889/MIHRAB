@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#07110d"><link rel="manifest" href="manifest.json">
+<title>مِحراب | MIHRAB</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap');
+:root{--bg:#07110d;--panel:#101b16;--panel2:#14231b;--gold:#d8b66a;--green:#27c887;--muted:#91a69a;--line:#24372b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 80% -10%,#163b2a 0,transparent 35%),var(--bg);color:#f4f7f3;font-family:Tajawal,system-ui,sans-serif;min-height:100vh}
+header{padding:22px 18px 10px;display:flex;justify-content:space-between;align-items:center}.brand{font-weight:800;font-size:25px;letter-spacing:.4px}.brand small{display:block;font-size:10px;color:var(--gold);letter-spacing:3px}
+button,select{font:inherit;cursor:pointer}button{border:0}.iconbtn{background:var(--panel);border:1px solid var(--line);color:var(--gold);border-radius:14px;padding:10px}
+main{max-width:680px;margin:auto;padding:10px 16px 100px}.hero{background:linear-gradient(145deg,#163b2a,#0e2117 65%,#101b16);border:1px solid #2c513b;border-radius:26px;padding:22px;position:relative;overflow:hidden}.hero:after{content:"۞";position:absolute;left:-18px;bottom:-45px;font-size:170px;color:#ffffff08}
+.eyebrow{color:var(--gold);font-size:13px}.nextname{font-size:30px;font-weight:800;margin:8px 0}.timer{font-size:35px;font-weight:800;letter-spacing:1px;color:#fff}.date{color:#b4c8ba;font-size:13px;margin-top:12px}
+.prayergrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:15px 0}.prayer{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:12px 3px;text-align:center}.prayer.active{border-color:var(--gold);background:#26311f}.prayer b{display:block;font-size:13px}.prayer span{font-size:12px;color:var(--muted);display:block;margin-top:5px}
+.sectiontitle{display:flex;justify-content:space-between;align-items:center;margin:24px 2px 12px}.sectiontitle h2{font-size:19px;margin:0}.sectiontitle span{font-size:12px;color:var(--muted)}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.tile{background:linear-gradient(160deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:20px;padding:17px 12px;min-height:105px;color:white;text-align:right}.tile .glyph{color:var(--gold);font-size:25px;display:block;margin-bottom:10px}.tile strong{font-size:15px}.tile small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:17px;margin-top:12px}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.primary{background:var(--green);color:#042014;padding:12px 18px;border-radius:13px;font-weight:800}.secondary{background:#1b3024;color:#d7e9dd;padding:11px 15px;border-radius:12px;border:1px solid #31533e}.field{width:100%;background:#08130d;color:white;border:1px solid var(--line);padding:12px;border-radius:12px;margin:7px 0}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#08120eeF;backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;justify-content:center;gap:0;padding:9px max(8px,env(safe-area-inset-left)) calc(9px + env(safe-area-inset-bottom));z-index:5}.nav button{flex:1;max-width:130px;background:none;color:var(--muted);font-size:11px;padding:7px}.nav button span{display:block;font-size:20px;margin-bottom:2px}.nav button.on{color:var(--gold)}
+.view{display:none}.view.show{display:block}.bigtext{font-size:25px;line-height:2.1;text-align:center}.muted{color:var(--muted)}.progress{height:5px;background:#23362a;border-radius:9px;overflow:hidden;margin:12px 0}.progress i{display:block;height:100%;background:var(--green);width:30%}
+.modal{position:fixed;inset:0;background:#000b;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}.modal.open{display:flex}.modalbox{width:min(420px,100%);background:#101b16;border:1px solid #35513d;border-radius:25px;padding:25px;text-align:center}.callring{width:95px;height:95px;border-radius:50%;margin:15px auto;background:#163b2a;display:grid;place-items:center;color:var(--gold);font-size:35px;border:1px solid #4b795b}
+@media(max-width:390px){.prayergrid{gap:5px}.prayer{padding:10px 1px}.prayer b{font-size:12px}.timer{font-size:30px}.tiles{gap:8px}.tile{padding:14px 9px}}
+</style></head>
+<body>
+<header><div class="brand">مِحراب <small>MIHRAB • رفيق المسلم</small></div><button class="iconbtn" onclick="showView('settings')">⚙</button></header>
+<main>
+<section id="home" class="view show">
+<div class="hero"><div class="eyebrow">الصلاة القادمة</div><div class="nextname" id="nextName">الفجر</div><div class="timer" id="countdown">--:--:--</div><div class="date" id="dateLine">جاري تحديد التاريخ والموقع…</div></div>
+<div class="prayergrid" id="prayerGrid"></div>
+<div class="sectiontitle"><h2>رفيق يومك</h2><span>كل ما تحتاجه</span></div>
+<div class="tiles">
+<button class="tile" onclick="showView('quran')"><span class="glyph">۞</span><strong>القرآن الكريم</strong><small>وردك اليومي</small></button>
+<button class="tile" onclick="showView('adhkar')"><span class="glyph">◉</span><strong>الأذكار</strong><small>حصن المسلم</small></button>
+<button class="tile" onclick="showView('tasbeeh')"><span class="glyph">◎</span><strong>المسبحة</strong><small>تسبيح وذكر</small></button>
+<button class="tile" onclick="showView('qibla')"><span class="glyph">⌖</span><strong>القبلة</strong><small>اتجاه مكة</small></button>
+<button class="tile" onclick="showView('calendar')"><span class="glyph">☾</span><strong>التقويم</strong><small>هجري وميلادي</small></button>
+<button class="tile" onclick="showView('settings')"><span class="glyph">⚙</span><strong>الإعدادات</strong><small>خصص تجربتك</small></button>
+</div>
+<div class="card"><div class="row"><div><b>تنبيه الصلاة</b><div class="muted" style="font-size:12px;margin-top:5px">فعّل الإشعارات لتذكيرك عند دخول الوقت</div></div><button class="primary" onclick="enableNotifications()">تفعيل</button></div></div>
+</section>
+<section id="quran" class="view"><div class="sectiontitle"><h2>القرآن الكريم</h2><span>وردك المبارك</span></div><div class="card"><p class="muted">سورة الفاتحة • نموذج القراءة</p><div class="bigtext">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ<br>الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ<br>الرَّحْمَٰنِ الرَّحِيمِ<br>مَالِكِ يَوْمِ الدِّينِ</div><p class="muted" style="text-align:center">هذه نسخة أولية للواجهة؛ ربط المصحف الكامل يحتاج مصدر نص موثوق.</p></div></section>
+<section id="adhkar" class="view"><div class="sectiontitle"><h2>أذكار مختارة</h2></div><div class="card"><div class="bigtext" id="dhikr">سبحان الله وبحمده</div><p style="text-align:center;color:var(--gold)">التكرار: <b id="dhcount">0</b></p><div class="row"><button class="secondary" onclick="resetDhikr()">إعادة</button><button class="primary" onclick="countDhikr()">ذكر الله</button></div></div><div class="card">أذكار الصباح والمساء • الاستغفار • الصلاة على النبي ﷺ</div></section>
+<section id="tasbeeh" class="view"><div class="sectiontitle"><h2>المسبحة الإلكترونية</h2></div><div class="card" style="text-align:center"><div style="font-size:15px;color:var(--muted)">عدد التسبيحات</div><div id="tasCount" style="font-size:65px;color:var(--gold);font-weight:800">0</div><button class="primary" style="width:100%;padding:20px;margin:12px 0" onclick="tasbeeh()">سبّح</button><button class="secondary" onclick="tasReset()">تصفير العداد</button></div></section>
+<section id="qibla" class="view"><div class="sectiontitle"><h2>اتجاه القبلة</h2></div><div class="card" style="text-align:center"><div style="font-size:70px;color:var(--gold)">⌖</div><p>اتجاه القبلة يعتمد على موقعك وبوصلة الجهاز.</p><button class="primary" onclick="alert('يلزم تفعيل الموقع وحساس البوصلة في جهازك')">تحديد الاتجاه</button></div></section>
+<section id="calendar" class="view"><div class="sectiontitle"><h2>التقويم</h2></div><div class="card"><h3 id="calDate"></h3><p class="muted">التاريخ الهجري والميلادي</p></div></section>
+<section id="settings" class="view"><div class="sectiontitle"><h2>الإعدادات</h2></div><div class="card"><label>طريقة حساب مواقيت الصلاة</label><select class="field" id="method"><option value="4">أم القرى – السعودية</option><option value="3">رابطة العالم الإسلامي</option><option value="5">الهيئة المصرية</option></select><label>تنبيه قبل الصلاة (دقائق)</label><select class="field" id="before"><option>0</option><option>5</option><option>10</option><option>15</option></select><label>صوت التذكير</label><select class="field" id="sound"><option value="voice">رسالة صوتية</option><option value="beep">نغمة</option><option value="silent">صامت</option></select><button class="primary" onclick="saveSettings()">حفظ الإعدادات</button><p class="muted" style="font-size:12px">التنبيه أثناء إغلاق المتصفح يعتمد على دعم النظام والإشعارات؛ لا يمكن للويب ضمان تشغيل مكالمة أو صوت تلقائي في الخلفية.</p></div></section>
+</main>
+<nav class="nav"><button class="on" onclick="showView('home',this)"><span>⌂</span>الرئيسية</button><button onclick="showView('quran',this)"><span>۞</span>القرآن</button><button onclick="showView('adhkar',this)"><span>◉</span>الأذكار</button><button onclick="showView('tasbeeh',this)"><span>◎</span>التسبيح</button><button onclick="showView('settings',this)"><span>⚙</span>الإعدادات</button></nav>
+<div class="modal" id="prayerModal"><div class="modalbox"><div class="eyebrow">حان وقت الصلاة</div><div class="callring">۞</div><h2 id="modalPrayer">حان وقت الصلاة</h2><p>تقبل الله منا ومنكم صالح الأعمال</p><button class="primary" onclick="answerPrayer()">رد • سماع التذكير</button><button class="secondary" style="margin:8px" onclick="closePrayer()">إغلاق</button></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/adhan/4.4.3/Adhan.min.js"></script>
+<script>
+const names=['الفجر','الشروق','الظهر','العصر','المغرب','العشاء'], keys=['fajr','sunrise','dhuhr','asr','maghrib','isha'];
+let coords={lat:24.7136,lon:46.6753}, times={}, nextPrayer='fajr',dh=0,tas=0,lastAlert='';
+const $=id=>document.getElementById(id);
+function showView(id,btn){document.querySelectorAll('.view').forEach(x=>x.classList.remove('show'));$(id).classList.add('show');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('on'));if(btn)btn.classList.add('on');else document.querySelectorAll('.nav button')[0].classList.add('on');}
+function calc(){if(!window.adhan){$('dateLine').textContent='تعذر تحميل مكتبة المواقيت؛ تحقق من الإنترنت';return}
+const method=Number(localStorage.getItem('method')||4), params=adhan.CalculationMethod[Object.keys(adhan.CalculationMethod).find(k=>adhan.CalculationMethod[k].id===method)]||adhan.CalculationMethod.UmmAlQura;
+const pt=new adhan.PrayerTimes(new adhan.Coordinates(coords.lat,coords.lon),new Date(),params);times={fajr:pt.fajr,sunrise:pt.sunrise,dhuhr:pt.dhuhr,asr:pt.asr,maghrib:pt.maghrib,isha:pt.isha};
+$('prayerGrid').innerHTML=keys.map((k,i)=>`<div class="prayer" id="p-${k}"><b>${names[i]}</b><span>${fmt(times[k])}</span></div>`).join('');updateNext();setInterval(updateNext,1000);
+}
+function fmt(d){return d?d.toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit',hour12:true}):'--'}
+function updateNext(){if(!times.fajr)return;let now=new Date(),next=keys.find(k=>k!=='sunrise'&&times[k]>now);if(!next){const tomorrow=new Date(now);tomorrow.setDate(now.getDate()+1);const p=new adhan.PrayerTimes(new adhan.Coordinates(coords.lat,coords.lon),tomorrow,adhan.CalculationMethod.UmmAlQura());times.fajr=p.fajr;next='fajr'}
+nextPrayer=next;document.querySelectorAll('.prayer').forEach(x=>x.classList.remove('active'));$('p-'+next)?.classList.add('active');$('nextName').textContent=names[keys.indexOf(next)];let sec=Math.max(0,Math.floor((times[next]-now)/1000));$('countdown').textContent=[Math.floor(sec/3600),Math.floor(sec%3600/60),sec%60].map(x=>String(x).padStart(2,'0')).join(':');$('dateLine').textContent=now.toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});$('calDate').textContent=now.toLocaleDateString('ar-SA-u-ca-islamic',{dateStyle:'full'})+' • '+now.toLocaleDateString('ar-SA');checkAlarm();}
+function checkAlarm(){let now=new Date();for(const k of ['fajr','dhuhr','asr','maghrib','isha']){let d=times[k];if(d&&Math.abs(now-d)<1000&&lastAlert!==k+now.toDateString()){lastAlert=k+now.toDateString();openPrayer(k);}}}
+function openPrayer(k){$('modalPrayer').textContent='حان وقت '+names[keys.indexOf(k)];$('prayerModal').classList.add('open');if(Notification.permission==='granted')new Notification('حان وقت '+names[keys.indexOf(k)],{body:'تقبل الله منا ومنكم صالح الأعمال',icon:'icon.png'});}
+function closePrayer(){$('prayerModal').classList.remove('open')}
+function answerPrayer(){closePrayer();let s=localStorage.getItem('sound')||'voice';if(s==='voice'){let u=new SpeechSynthesisUtterance('حان وقت الصلاة، تقبل الله منا ومنكم صالح الأعمال');u.lang='ar-SA';speechSynthesis.cancel();speechSynthesis.speak(u)}else if(s==='beep'){let a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=660;g.gain.value=.15;o.start();o.stop(a.currentTime+.5)}}
+async function enableNotifications(){if(!('Notification'in window)){alert('متصفحك لا يدعم الإشعارات');return}let p=await Notification.requestPermission();alert(p==='granted'?'تم تفعيل الإشعارات':'لم يتم السماح بالإشعارات');}
+function countDhikr(){dh++;$('dhcount').textContent=dh}function resetDhikr(){dh=0;$('dhcount').textContent=0}
+function tasbeeh(){tas++;$('tasCount').textContent=tas}function tasReset(){tas=0;$('tasCount').textContent=0}
+function saveSettings(){['method','before','sound'].forEach(k=>localStorage.setItem(k,$(k).value));alert('تم حفظ الإعدادات');calc()}
+if(navigator.geolocation)navigator.geolocation.getCurrentPosition(p=>{coords={lat:p.coords.latitude,lon:p.coords.longitude};calc()},()=>calc(),{timeout:7000});else calc();
+if('serviceWorker'in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script></body></html>
